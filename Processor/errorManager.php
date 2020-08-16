@@ -12,14 +12,28 @@ class ErrorManager
 
     public function logInfo($message)
     {
-
+        constructMessage($message, 'info');
     }
 
     public function logError($message)
     {
+        constructMessage($message, 'error');
+    }
+
+    function constructMessage($message, $type)
+    {
+        if($type == 'info')
+        {
+            $message += $message . ' - info ';
+        }
+        else if($type == 'error')
+        {
+            $message += $message . ' - error ';
+        }
+
         $content = $this->_fileUtilityManager->readFile();
         $content += "\r\n";
-        $content += $content . ' - ' . date("Y-m-d H:i:s");
+        $content += $message . ' - ' . date("Y-m-d H:i:s");
         $this->_fileUtilityManager->writeFile($content);
     }
 }
